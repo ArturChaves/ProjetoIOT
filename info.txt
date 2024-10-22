@@ -1,0 +1,46 @@
+nome_do_banco = banco
+senha = 123
+user = arduino
+
+-----------------------------------------
+
+# Atualizar a lista de pacotes
+sudo apt update
+
+# Instalar o PostgreSQL e o cliente
+sudo apt install postgresql postgresql-contrib
+
+# Iniciar o serviço do PostgreSQL
+sudo service postgresql start
+
+-----------------------------------------
+
+# Acessar o shell do PostgreSQL
+sudo -u postgres psql
+
+# Criar um novo banco de dados
+CREATE DATABASE banco;
+
+# Criar um novo usuário
+CREATE USER arduino WITH PASSWORD '123';
+
+# Dar permissões ao usuário no banco de dados
+GRANT ALL PRIVILEGES ON DATABASE banco TO arduino;
+
+# Sair do shell do PostgreSQL
+\q
+
+
+
+
+
+https://bug-free-fortnight-7gp4q77w4w526p9.github.dev:5000/dados
+
+
+
+CREATE TABLE status_objetos (id SERIAL PRIMARY KEY, sensor_id VARCHAR(255), presence_status BOOLEAN, timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+
+
+curl -X POST https://bug-free-fortnight-7gp4q77w4w526p9-5000.app.github.dev/dados -H "Content-Type: application/json" -d "{\"sensor_id\": \"1\", \"presence_status\": true}"
+
+curl -X POST https://bug-free-fortnight-7gp4q77w4w526p9-5000.app.github.dev/dados -H "Content-Type: application/json" -d "{\"sensor_id\": \"1\", \"presence_status\": true}"
