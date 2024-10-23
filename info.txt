@@ -38,7 +38,12 @@ https://bug-free-fortnight-7gp4q77w4w526p9.github.dev:5000/dados
 
 
 
-CREATE TABLE status_objetos (id SERIAL PRIMARY KEY, sensor_id VARCHAR(255), presence_status BOOLEAN, timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+CREATE TABLE status_objetos (
+    id SERIAL PRIMARY KEY,
+    sensor_id VARCHAR(255),
+    presence_status BOOLEAN,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
 
 curl -X POST https://bug-free-fortnight-7gp4q77w4w526p9-5000.app.github.dev/dados -H "Content-Type: application/json" -d "{\"sensor_id\": \"1\", \"presence_status\": true}"

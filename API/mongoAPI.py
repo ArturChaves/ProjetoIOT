@@ -1,32 +1,33 @@
 from flask import Flask, request, jsonify
-import psycopg2
+from pymongo import MongoClient
+from datetime import datetime
 
 app = Flask(__name__)
 
-# Configurações do banco de dados PostgreSQL
+# Configurações do MongoDB
 db_config = {
-    'host': 'localhost',
-    'database': 'banco',
-    'user': 'arduino',
-    'password': '123'
+    'url': 'mongodb+srv://projeto:9yfp5PxEQCjx4UxC@bancoiot.midi9.mongodb.net/?retryWrites=true&w=majority&tls=true',
+    'database': 'BancoIOT'
 }
+
+# Conectando ao MongoDB
+client = MongoClient(db_config['url'])
+db = client[db_config['database']]
+collection = db['Sensores']
 
 def insert_data(sensor_id, presence_status):
     try:
-        conn = psycopg2.connect(**db_config)
-        cursor = conn.cursor()
+        # Preparar o documento com timestamp
+        document = {
+            'sensor_id': sensor_id,
+            'presence_status': presence_status,
+            'timestamp': datetime.utcnow()  # Hora UTC
+        }
 
-        # Inserir os dados na tabela
-        query = "INSERT INTO public.status_objetos (sensor_id, presence_status) VALUES (%s, %s)"
-        
-
-        cursor.execute(query, (sensor_id, presence_status))
-
-        conn.commit()
-        cursor.close()
-        conn.close()
+        # Inserir os dados na coleção
+        collection.insert_one(document)
         return True
-    except psycopg2.Error as err:
+    except Exception as err:
         print(f"Erro: {err}")
         return False
 
@@ -35,7 +36,6 @@ def receive_data():
     if request.method == 'POST':
         data = request.json
         sensor_id = data.get('sensor_id')
-        print(data)
         presence_status = data.get('presence_status')
 
         if not sensor_id or presence_status is None:
