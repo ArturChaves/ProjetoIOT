@@ -48,5 +48,10 @@ def receive_data():
 
     return jsonify({'error': 'Método não permitido'}), 405
 
+@app.route('/check', methods=['GET'])
+def check_status():
+    return "OK API", 200
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

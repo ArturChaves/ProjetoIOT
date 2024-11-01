@@ -13,6 +13,10 @@ sudo apt install postgresql postgresql-contrib
 # Iniciar o serviço do PostgreSQL
 sudo service postgresql start
 
+# logar pelo user arduino no banco
+
+psql -h localhost -U arduino -d banco -p 5432
+
 -----------------------------------------
 
 # Acessar o shell do PostgreSQL
